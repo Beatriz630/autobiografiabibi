@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#16001f">
+  <title>O Mundinho de Bibi ♡</title>
+  <style>
+    :root {
+      --bg: #100018;
+      --panel: rgba(28, 4, 43, .88);
+      --purple: #b52cff;
+      --pink: #f08aff;
+      --light: #f8d7ff;
+      --muted: #d9b9e8;
+      --line: rgba(211, 91, 255, .65);
+      --shadow: 0 0 14px rgba(190, 43, 255, .65), 0 0 34px rgba(151, 24, 255, .25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      color: var(--light);
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(116, 0, 190, .28), transparent 30%),
+        radial-gradient(ellipse at 85% 35%, rgba(184, 0, 255, .2), transparent 28%),
+        radial-gradient(ellipse at 50% 90%, rgba(90, 0, 150, .24), transparent 34%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "♡   ✦     ♡       ✧       ♡      ✦       ♡";
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      color: rgba(207, 94, 255, .16); font-size: 28px; letter-spacing: 25px;
+      line-height: 100px; overflow: hidden; word-break: break-all;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    .hidden { display: none !important; }
+
+    /* Tela de entrada */
+    #entrada {
+      min-height: 100vh; display: grid; place-items: center; padding: 28px 18px;
+      position: relative; isolation: isolate; overflow: hidden; text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 45%, rgba(114, 0, 170, .35), transparent 55%),
+        linear-gradient(135deg, #08000e, #21002f 55%, #0c0016);
+    }
+    #entrada::before, #entrada::after {
+      content: "♡"; position: absolute; color: var(--pink);
+      text-shadow: 0 0 12px var(--purple), 0 0 28px var(--purple);
+      font-size: clamp(80px, 18vw, 190px); opacity: .6; z-index: -1;
+    }
+    #entrada::before { left: 4%; top: 12%; transform: rotate(-18deg); }
+    #entrada::after { right: 5%; bottom: 8%; transform: rotate(16deg); }
+    .intro-card { width: min(900px, 100%); padding: clamp(28px, 6vw, 68px) 20px; }
+    .crown { color: var(--pink); font-size: 58px; text-shadow: var(--shadow); }
+    .intro-card h1 {
+      color: #f6b5ff; font-family: "Brush Script MT", "Segoe Script", cursive;
+      font-size: clamp(42px, 8vw, 82px); line-height: 1.06; margin: 12px 0 18px;
+      text-shadow: 0 0 8px #d33bff, 0 0 25px #a000ff;
+    }
+    .intro-card p { color: #f0c9ff; font-size: clamp(16px, 2.5vw, 21px); line-height: 1.65; }
+    .glow-button {
+      display: inline-block; margin-top: 30px; padding: 15px 30px; border-radius: 50px;
+      border: 2px solid #e18aff; color: #ffd8ff; background: rgba(91, 0, 132, .35);
+      box-shadow: var(--shadow); cursor: pointer; transition: .25s;
+    }
+    .glow-button:hover { transform: translateY(-3px) scale(1.03); background: #7400a8; }
+
+    /* Site */
+    #site { display: none; }
+    header {
+      position: sticky; top: 0; z-index: 20; background: rgba(12, 0, 20, .94);
+      border-bottom: 1px solid var(--line); box-shadow: 0 5px 25px rgba(157, 0, 255, .18);
+      backdrop-filter: blur(12px);
+    }
+    .nav-wrap {
+      width: min(1200px, 94%); min-height: 68px; margin: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { color: #f3a8ff; font: italic  bold clamp(21px, 3vw, 30px) "Brush Script MT", cursive; white-space: nowrap; }
+    .brand span { text-shadow: var(--shadow); }
+    nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+    nav a { padding: 10px 12px; border-radius: 25px; color: #f3d8ff; font-size: 13px; transition: .2s; }
+    nav a:hover { background: #69009a; box-shadow: var(--shadow); }
+    .menu-btn { display: none; border: 1px solid var(--line); background: transparent; color: white; padding: 8px 12px; border-radius: 12px; }
+
+    main { width: min(1200px, 94%); margin: auto; }
+    section { scroll-margin-top: 90px; }
+    .hero {
+      min-height: 340px; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center;
+      gap: 28px; padding: 46px 2%; border-bottom: 1px solid var(--line);
+    }
+    .avatar-art {
+      min-height: 250px; display: grid; place-items: center; position: relative;
+      border-radius: 48% 52% 40% 60%; overflow: hidden;
+      background: radial-gradient(circle, #8b16b9 0, #38004f 48%, transparent 72%);
+    }
+    .avatar-art .moon { font-size: clamp(100px, 18vw, 180px); filter: drop-shadow(0 0 22px #d74dff); }
+    .avatar-art::after { content: "✦  ♡  ✧  ♡  ✦"; position: absolute; inset: 15px; color: #f4aaff; font-size: 22px; letter-spacing: 16px; }
+    .hero h2, .section-title {
+      color: #e9a0ff; font: italic clamp(30px, 5vw, 48px) "Brush Script MT", "Segoe Script", cursive;
+      text-shadow: 0 0 12px #a000ff; margin-bottom: 14px;
+    }
+    .hero p { color: var(--muted); line-height: 1.7; max-width: 620px; }
+    .section { padding: 35px 0; }
+    .panel {
+      background: linear-gradient(135deg, rgba(44, 7, 62, .92), rgba(17, 0, 28, .94));
+      border: 1px solid var(--line); border-radius: 28px; padding: clamp(20px, 3vw, 32px);
+      box-shadow: 0 0 22px rgba(144, 0, 210, .16);
+    }
+    .about-grid { display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 28px; }
+    
+    /* Configuração do quadradinho e da imagem para preencher certinho */
+    .photo-placeholder {
+      width: 100%;
+      height: 205px; 
+      border: 2px solid #d36aff; 
+      border-radius: 20px;
+      overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+      background: linear-gradient(145deg, #4d0870, #160021);
+      box-shadow: var(--shadow);
+    }
+    .photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Faz a imagem ocupar todo o espaço do quadrado sem distorcer */
+      display: block;
+    }
+
+    .about-grid p, .dream p { line-height: 1.75; color: var(--muted); }
+    .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 18px; }
+    .skill {
+      border: 1px solid #c74cff; background: rgba(111, 0, 157, .34);
+      padding: 14px 12px; border-radius: 30px; text-align: center; color: #f5d9ff;
+      box-shadow: 0 0 12px rgba(174, 39, 255, .2);
+    }
+    .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 20px; }
+    .project {
+      border: 1px solid #c64bff; border-radius: 20px; overflow: hidden;
+      background: rgba(48, 5, 67, .9); box-shadow: 0 0 15px rgba(161, 0, 255, .2);
+      transition: .25s;
+    }
+    .project:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .project-art {
+      min-height: 130px; display: grid; place-items: center; font-size: 54px;
+      background: radial-gradient(circle, #9a24d1, #310047 70%);
+    }
+    .project-content { padding: 17px; text-align: center; }
+    .project-content h3 { color: #f2baff; margin-bottom: 8px; }
+    .project-content p { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .small-link {
+      display: inline-block; margin-top: 13px; border: 1px solid #d36aff;
+      border-radius: 30px; padding: 8px 17px; font-size: 13px;
+    }
+    .dream-contact { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding-bottom: 35px; }
+    .dream { min-height: 240px; }
+    .dream .section-title, .contact .section-title { font-size: clamp(27px, 4vw, 38px); }
+    form { display: grid; gap: 10px; margin-top: 14px; }
+    input, textarea {
+      width: 100%; border: 1px solid #9d32c9; border-radius: 10px;
+      background: rgba(17, 0, 27, .85); color: white; padding: 12px 14px; outline: none;
+    }
+    input:focus, textarea:focus { border-color: #ed9aff; box-shadow: 0 0 10px #9b20cf; }
+    textarea { min-height: 90px; resize: vertical; }
+    form button { border: 0; border-radius: 30px; padding: 12px; color: #190022; background: linear-gradient(90deg, #c23dff, #ee91ff); cursor: pointer; font-weight: bold; }
+    #form-msg { color: #f1baff; font-size: 13px; min-height: 18px; }
+    footer {
+      border-top: 1px solid var(--line); padding: 22px 3%; text-align: center;
+      color: #cda3df; background: rgba(10, 0, 17, .85); font-size: 13px;
+    }
+    .socials { display: flex; justify-content: center; gap: 12px; margin-top: 12px; }
+    .socials a { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid #a638d2; border-radius: 50%; color: #f1baff; }
+    .socials a:hover { background: #7000a0; box-shadow: var(--shadow); }
+
+    @media (max-width: 760px) {
+      .nav-wrap { padding: 12px 0; flex-wrap: wrap; }
+      .menu-btn { display: block; }
+      nav { display: none; width: 100%; justify-content: center; padding-bottom: 8px; }
+      nav.open { display: flex; }
+      nav a { font-size: 12px; padding: 9px 10px; }
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 28px; }
+      .avatar-art { min-height: 190px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .photo-placeholder { min-height: 150px; }
+      .skills { grid-template-columns: repeat(2, 1fr); }
+      .projects { grid-template-columns: 1fr; }
+      .dream-contact { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 380px) {
+      .skills { grid-template-columns: 1fr; }
+      .brand { font-size: 21px; }
+    }
+  
+    .about-text {
+      margin-top: 18px;
+    }
+    .about-text p {
+      color: var(--muted, #e5d1ec);
+      line-height: 1.9;
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+
+  <section id="entrada" aria-label="Tela de boas-vindas">
+    <div class="intro-card">
+      <div class="crown">♛</div>
+      <h1>Bem-vindos(a) ao<br>mundinho da bibi ♡</h1>
+      <p>Aqui você vai conhecer um pouco sobre bibi,<br> suas ideias,seus desenhos,e seus projetos<br>e tudo o que ela ama!</p>
+      <button class="glow-button" type="button" onclick="entrarNoSite()">Entre no universo de  bibi ✨</button>
+    </div>
+  </section>
+
+  <div id="site">
+    <header>
+      <div class="nav-wrap">
+        <a class="brand" href="#inicio"><span>♛</span> O Mundinho de Bibi ♡</a>
+        <button class="menu-btn" type="button" aria-label="Abrir menu" onclick="alternarMenu()">☰ Menu</button>
+        <nav id="menu">
+          <a href="#inicio" onclick="fecharMenu()">⌂ Início</a>
+          <a href="#sobre" onclick="fecharMenu()">♡ Sobre mim</a>
+          <a href="#habilidades" onclick="fecharMenu()">☆ Habilidades</a>
+          <a href="#projetos" onclick="fecharMenu()">▣ Projetos</a>
+          <a href="#objetivos" onclick="fecharMenu()">✧ Objetivos</a>
+          <a href="curriculo bibi.pdf" target="_blank" onclick="fecharMenu()">📄curriculo bibi.pdf</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="avatar-art" aria-label="Ilustração decorativa"><span class="moon">🌙</span></div>
+        <div>
+          <h2>Olá, seja bem-vindo(a)<br>ao nosso site! ♡</h2>
+          <p>Esse é o cantinho especial da bibi na internet! Aqui você vai conhecer um pouco da  históri da bibi, habilidades, projetos e seus sonhos.</p>
+          <a class="glow-button" href="#sobre">Conheça mais ↓</a>
+        </div>
+      </section>
+
+      <section class="section panel" id="sobre">
+        <div class="about-grid">
+          <!-- Imagem preenchendo certinho o quadradinho -->
+          <div class="photo-placeholder">
+            <img src="motion_photo_6114630894323036243 (2).jpg" alt="Foto de Bibi">
+          </div>
+          <div>
+            <h2 class="section-title">♡ Sobre mim ♡</h2>
+            <div class="about-text">
+              <p>Meu nome é Bibi, e esta é a história de uma garota cheia de sonhos. Sou uma pessoa que acredita na força dos estudos e da dedicação. Tenho muitos objetivos e quero construir um futuro brilhante. Um dos meus maiores sonhos é me tornar uma advogada bem-sucedida. Quero trabalhar com responsabilidade, ética e respeito. Imagino minha carreira sendo construída com esforço e conhecimento. Quero conhecer profundamente as leis e compreender os direitos das pessoas. Tenho vontade de ajudar quem precisa de orientação e apoio. Acredito que a justiça deve ser tratada com seriedade e humanidade. Quero ser uma profissional preparada para enfrentar desafios.</p>
+              <p>Sei que uma grande carreira começa com pequenos passos. Por isso, valorizo cada oportunidade de aprender. Quero me dedicar aos estudos e melhorar todos os dias. Tenho curiosidade para conhecer diferentes áreas do Direito. Também quero aprender a argumentar com clareza e segurança. Uma boa advogada precisa saber ouvir antes de falar. Quero desenvolver essa habilidade em cada experiência. Quero aprender a analisar situações com atenção. Também desejo escrever de forma clara e organizada. A comunicação será uma parte importante da minha profissão.</p>
+              <p>Quero expressar minhas ideias com respeito e confiança. Tenho como objetivo construir uma carreira honesta. Quero que meu trabalho seja reconhecido pela qualidade. Mais do que sucesso, desejo ter orgulho das minhas escolhas. Quero conquistar minha independência por meio do meu esforço. Imagino ter meu próprio escritório no futuro. Quero que esse espaço seja acolhedor e profissional. Gostaria de receber cada pessoa com atenção e respeito. Quero entender as necessidades de cada cliente. Sei que cada história merece ser ouvida com cuidado.</p>
+              <p>Quero estudar cada caso com dedicação. Também quero buscar soluções responsáveis e justas. Minha intenção é exercer a profissão com compromisso. Quero respeitar a confidencialidade das informações. Entendo que a ética deve estar presente em todas as decisões. Quero agir com honestidade mesmo diante de situações difíceis. Sei que a profissão exige paciência e persistência. Estou disposta a aprender com os erros e experiências. Quero transformar dificuldades em oportunidades de crescimento. Tenho sonhos grandes, mas sei que eles exigem planejamento.</p>
+              <p>Quero organizar minhas metas e trabalhar por elas. Valorizo a disciplina e a responsabilidade. Também acredito que a criatividade ajuda a encontrar caminhos. Quero manter minha personalidade em tudo o que fizer. Não desejo deixar de ser quem sou ao conquistar meus objetivos. Quero continuar sendo uma pessoa gentil e determinada. Quero tratar todas as pessoas com educação. Respeito opiniões diferentes das minhas. Sei que ouvir outros pontos de vista amplia o conhecimento. Quero aprender a trabalhar em equipe.</p>
+              <p>Também quero desenvolver autonomia para tomar decisões. Tenho interesse em conhecer novas culturas e realidades. Acredito que o conhecimento amplia nossos horizontes. Quero continuar aprendendo durante toda a minha vida. Tenho vontade de participar de cursos e palestras. Quero acompanhar mudanças nas leis e na sociedade. Sei que uma profissional precisa estar sempre atualizada. Quero desenvolver uma rotina de estudos eficiente. Também quero aprender a administrar meu tempo. Planejamento será importante para alcançar minhas metas.</p>
+              <p>Quero equilibrar minha vida profissional e pessoal. Sucesso, para mim, também significa ter saúde e tranquilidade. Quero comemorar minhas conquistas sem esquecer minhas origens. Quero reconhecer o esforço das pessoas que me apoiam. Minha família e as pessoas importantes fazem parte da minha história. Quero construir um futuro do qual eu possa me orgulhar. Tenho vontade de conhecer lugares novos. Quero viver experiências que me ensinem algo importante. Cada desafio pode trazer uma oportunidade de amadurecimento. Quero aprender a lidar com momentos de pressão.</p>
+              <p>Também quero manter a calma diante de problemas. Uma boa decisão precisa de reflexão e responsabilidade. Quero desenvolver pensamento crítico. Quero analisar informações antes de formar opiniões. Tenho interesse em defender direitos e promover cidadania. Quero compreender como as leis impactam a vida das pessoas. Também quero conhecer a história das instituições jurídicas. Quero estudar os princípios que orientam a justiça. Tenho curiosidade sobre Direito Civil e Direito Penal. Também quero conhecer Direito de Família e Direito do Trabalho.</p>
+              <p>Quero descobrir qual área combina mais com meus objetivos. Estou aberta a aprender sobre diferentes possibilidades. Não tenho medo de começar do início. Sei que toda especialista já foi uma estudante. Quero aproveitar cada etapa da minha formação. Quero fazer perguntas e buscar respostas confiáveis. Tenho vontade de participar de projetos acadêmicos. Quero desenvolver pesquisas e apresentar minhas ideias. Também quero melhorar minha escrita. Quero falar em público com segurança.</p>
+              <p>Sei que a prática ajuda a vencer a timidez. Quero aprender a negociar com respeito. Quero buscar acordos quando forem adequados e justos. Também quero saber defender uma posição com argumentos. Quero agir com firmeza sem perder a educação. Acredito que respeito e profissionalismo caminham juntos. Quero ser lembrada pela seriedade do meu trabalho. Quero construir relações profissionais baseadas na confiança. Tenho o sonho de conquistar reconhecimento na minha área. Mas sei que reconhecimento é consequência de dedicação.</p>
+              <p>Quero comemorar cada etapa vencida. Também quero ter humildade para continuar aprendendo. Quero aceitar conselhos que me ajudem a crescer. Quero aprender com profissionais experientes. Espero um dia poder orientar quem estiver começando. Quero compartilhar conhecimento de maneira generosa. Também desejo apoiar iniciativas que ampliem o acesso à informação. Quero contribuir para uma sociedade mais consciente de seus direitos. Sei que não posso resolver todos os problemas do mundo. Mas acredito que cada atitude responsável pode fazer diferença.</p>
+              <p>Quero usar minha profissão para contribuir positivamente. Quero ter coragem para enfrentar desafios importantes. Quero manter meus valores mesmo quando o caminho for difícil. Minha determinação será uma das minhas maiores forças. Minha curiosidade continuará me levando a novos aprendizados. Minha criatividade me ajudará a pensar em novas soluções. Minha organização será importante para cumprir compromissos. Minha comunicação poderá aproximar pessoas e ideias. Quero aperfeiçoar todas essas habilidades com o tempo. Também quero reconhecer aquilo que ainda preciso melhorar.</p>
+              <p>Não espero ser perfeita. Quero ser dedicada, preparada e consciente das minhas responsabilidades. Quero aprender a reconhecer meus limites. Também quero saber pedir ajuda quando necessário. Quero construir uma trajetória com propósito. Quero que minhas conquistas tenham significado. Quero olhar para trás e perceber o quanto evoluí. Cada página desta biografia representa um pouco dos meus sonhos. Meu presente é feito de aprendizado, planos e descobertas. Meu futuro será construído pelas escolhas que faço hoje.</p>
+              <p>Continuarei trabalhando para transformar meus objetivos em realidade. Quero ser uma advogada bem-sucedida sem deixar de ser humana. Quero unir conhecimento, ética, empatia e dedicação. Quero ter orgulho da profissional que me tornarei. Esta é apenas uma parte da minha história. Ainda tenho muito para aprender, viver e conquistar. E estou animada para escrever os próximos capítulos. Quero construir minha trajetória com coragem, paciência e responsabilidade. Cada novo conhecimento será mais um passo em direção ao meu sonho. Quero aprender a transformar desafios em experiências que me fortaleçam.</p>
+              <p>Acredito que dedicação e respeito fazem diferença em qualquer profissão. Meu objetivo é crescer sem perder a sensibilidade e a humildade. Quero que minha história seja marcada por escolhas conscientes. Vou continuar acreditando no meu potencial e trabalhando pelos meus planos. Tenho orgulho dos sonhos que carrego e da pessoa que estou construindo. Quero construir minha trajetória com coragem, paciência e responsabilidade. Cada novo conhecimento será mais um passo em direção ao meu sonho. Quero aprender a transformar desafios em experiências que me fortaleçam. Acredito que dedicação e respeito fazem diferença em qualquer profissão. Meu objetivo é crescer sem perder a sensibilidade e a humildade.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="habilidades">
+        <h2 class="section-title" style="text-align:center">☆ Minhas habilidades ♡</h2>
+        <div class="skills">
+          <div class="skill">✿ Criatividade</div>
+          <div class="skill">♡ Comunicação</div>
+          <div class="skill">✓ Organização</div>
+          <div class="skill">✧ Trabalho em equipe</div>
+          <div class="skill">📖 Aprendizagem</div>
+          <div class="skill">✦ Resolução de problemas</div>
+        </div>
+      </section>
+
+      <section class="section" id="projetos">
+        <h2 class="section-title" style="text-align:center">▣ Meus projetos ♡</h2>
+        <p style="text-align:center;color:var(--muted)">Aqui estão alguns dos meus principais projetos:</p>
+        <div class="projects">
+          <article class="project">
+            <div class="project-art">💻</div>
+            <div class="project-content"><h3>Meu Portfólio Web</h3><p>Um espaço para apresentar minhas ideias, meus trabalhos e um pouquinho da minha história.</p><a class="small-link" href="#contato">Ver projeto →</a></div>
+          </article>
+          <article class="project">
+            <div class="project-art">🎧</div>
+            <div class="project-content"><h3>Minha Playlist</h3><p>Uma seleção de músicas que fazem parte dos meus momentos favoritos.</p><a class="small-link" href="#contato">Ver projeto →</a></div>
+          </article>
+          <article class="project">
+            <div class="project-art">📓</div>
+            <div class="project-content"><h3>Meu Diário Digital</h3><p>Um cantinho criativo para guardar ideias, anotações, planos e inspirações.</p><a class="small-link" href="#contato">Ver projeto →</a></div>
+          </article>
+        </div>
+      </section>
+
+      <div class="dream-contact">
+        <section class="panel dream" id="objetivos">
+          <h2 class="section-title">✧ Meus sonhos e objetivos ♡</h2>
+          <p>Quero continuar aprendendo, conquistar meus sonhos, conhecer lugares incríveis, construir um futuro de que eu me orgulhe e ser cada dia uma pessoa melhor. ♡</p>
+        </section>
+        <section class="panel contact" id="contato">
+          <h2 class="section-title">✉ Entre em contato ♡</h2>
+          <p style="color:var(--muted)">Se quiser falar comigo, deixe sua mensagem!</p>
+          <form id="contato-form">
+            <input type="text" id="nome" placeholder="Seu nome" required>
+            <input type="email" id="email" placeholder="Seu e-mail" required>
+            <textarea id="mensagem" placeholder="Sua mensagem..." required></textarea>
+            <button type="submit">➤ Enviar</button>
+            <p id="form-msg" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p>♛ Feito com ♡ por Bibi | O Mundinho de Bibi</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram">◎</a>
+        <a href="#" aria-label="TikTok">♪</a>
+        <a href="#" aria-label="YouTube">▶</a>
+        <a href="#" aria-label="Discord">◈</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    "use strict";
+
+    function entrarNoSite() {
+      const entrada = document.getElementById("entrada");
+      const site = document.getElementById("site");
+
+      if (!entrada || !site) return;
+
+      entrada.style.display = "none";
+      site.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function alternarMenu() {
+      const menu = document.getElementById("menu");
+      if (menu) menu.classList.toggle("open");
+    }
+
+    function fecharMenu() {
+      const menu = document.getElementById("menu");
+      if (menu) menu.classList.remove("open");
+    }
+
+    const formulario = document.getElementById("contato-form");
+    if (formulario) {
+      formulario.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const nome = document.getElementById("nome").value.trim();
+        const mensagem = document.getElementById("form-msg");
+
+        if (!nome) {
+          mensagem.textContent = "Por favor, escreva seu nome.";
+          return;
+        }
+
+        mensagem.textContent = "Obrigada pela mensagem, " + nome + "! ♡";
+        formulario.reset();
+      });
+    }
+  </script>
+</body>
+</html>
